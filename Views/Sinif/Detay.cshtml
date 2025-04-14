@@ -1,0 +1,27 @@
+@model PerformansTakip.Models.Sinif
+
+<h2>@Model.Ad Sınıfı Öğrencileri</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Öğrenci ID</th>
+            <th>Ad</th>
+            <th>Soyad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ogrenci in Model.Ogrenciler)
+        {
+            <tr>
+                <td>@ogrenci.Id</td>
+                <td>@ogrenci.Ad</td>
+                <td>@ogrenci.Soyad</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Sinif" asp-action="Index" class="btn btn-secondary" style="text-decoration: none; padding: 10px 20px; background-color: #6c757d; color: white; border-radius: 8px; font-weight: bold;">
+    ← Geri Dön
+</a>

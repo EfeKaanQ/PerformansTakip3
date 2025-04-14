@@ -1,0 +1,46 @@
+@model PerformansTakip.Models.Ogrenci
+
+@{
+    ViewData["Title"] = "Yeni Öğrenci Ekle";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Yeni Öğrenci Ekle</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="OgrenciEkle" method="post">
+                        <div class="mb-3">
+                            <label asp-for="Ad" class="form-label">Öğrenci Adı</label>
+                            <input asp-for="Ad" class="form-control" />
+                            <span asp-validation-for="Ad" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Soyad" class="form-label">Öğrenci Soyadı</label>
+                            <input asp-for="Soyad" class="form-control" />
+                            <span asp-validation-for="Soyad" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="SinifId" class="form-label">Sınıf</label>
+                            <select asp-for="SinifId" class="form-select" asp-items="@(new SelectList(ViewBag.Siniflar, "Id", "Ad"))">
+                                <option value="">Sınıf Seçiniz</option>
+                            </select>
+                            <span asp-validation-for="SinifId" class="text-danger"></span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Öğrenci Ekle</button>
+                            <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 
