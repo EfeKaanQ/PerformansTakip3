@@ -205,3 +205,4 @@ C:\Users\Efe\OneDrive\Masaüstü\MVC\PerformansTakip\obj\Debug\net10.0\refint\Pe
 C:\Users\Efe\OneDrive\Masaüstü\MVC\PerformansTakip\obj\Debug\net10.0\PerformansTakip.pdb
 C:\Users\Efe\OneDrive\Masaüstü\MVC\PerformansTakip\obj\Debug\net10.0\PerformansTakip.genruntimeconfig.cache
 C:\Users\Efe\OneDrive\Masaüstü\MVC\PerformansTakip\obj\Debug\net10.0\ref\PerformansTakip.dll
+C:\Users\Efe\OneDrive\Masaüstü\MVC\PerformansTakip\obj\Debug\net10.0\PerformansTakip.sourcelink.json

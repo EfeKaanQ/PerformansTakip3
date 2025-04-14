@@ -38,7 +38,7 @@ namespace PerformansTakip.Controllers
                         // Giriş başarılı, session oluştur
                         HttpContext.Session.SetInt32("OgretmenId", ogretmen.Id);
                         HttpContext.Session.SetString("OgretmenAdSoyad", ogretmen.AdSoyad); // Öğretmen adını session'a ekle
-                        return RedirectToAction("Index", "Sinif");
+                        return RedirectToAction("Index", "Ogretmen");
                     }
                 }
                 catch (BCrypt.Net.SaltParseException)
@@ -134,11 +134,28 @@ namespace PerformansTakip.Controllers
 
             if (ModelState.IsValid)
             {
-                sinif.OgretmenId = ogretmenId.Value;
-                _context.Siniflar.Add(sinif);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    // Öğretmen ID'sini ata
+                    sinif.OgretmenId = ogretmenId.Value;
+                    
+                    // Öğrenci listesini başlat
+                    sinif.Ogrenciler = new List<Ogrenci>();
+                    
+                    // Veritabanına ekle
+                    _context.Siniflar.Add(sinif);
+                    _context.SaveChanges();
+                    
+                    // Başarılı mesajı
+                    TempData["Mesaj"] = $"{sinif.Ad} sınıfı başarıyla eklendi.";
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Sınıf eklenirken bir hata oluştu: " + ex.Message);
+                }
             }
+            
             return View(sinif);
         }
 

@@ -13,23 +13,28 @@
                 </div>
                 <div class="card-body">
                     <form asp-action="OgrenciEkle" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
                         <div class="mb-3">
-                            <label asp-for="Ad" class="form-label">Öğrenci Adı</label>
+                            <label asp-for="Ad" class="form-label"></label>
                             <input asp-for="Ad" class="form-control" />
                             <span asp-validation-for="Ad" class="text-danger"></span>
                         </div>
+                        
                         <div class="mb-3">
-                            <label asp-for="Soyad" class="form-label">Öğrenci Soyadı</label>
+                            <label asp-for="Soyad" class="form-label"></label>
                             <input asp-for="Soyad" class="form-control" />
                             <span asp-validation-for="Soyad" class="text-danger"></span>
                         </div>
+                        
                         <div class="mb-3">
-                            <label asp-for="SinifId" class="form-label">Sınıf</label>
+                            <label asp-for="SinifId" class="form-label"></label>
                             <select asp-for="SinifId" class="form-select" asp-items="@(new SelectList(ViewBag.Siniflar, "Id", "Ad"))">
                                 <option value="">Sınıf Seçiniz</option>
                             </select>
                             <span asp-validation-for="SinifId" class="text-danger"></span>
                         </div>
+                        
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Öğrenci Ekle</button>
                             <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
@@ -43,4 +48,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-} 
+}
