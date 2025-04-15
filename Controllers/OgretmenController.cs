@@ -124,44 +124,49 @@ namespace PerformansTakip.Controllers
 
         // Sınıf Ekleme İşlemi
         [HttpPost]
-        public IActionResult SinifEkle(Sinif sinif)
+        [ValidateAntiForgeryToken]
+        public IActionResult SinifEkle([FromForm] string ad)
         {
+            // Öğretmen ID'sini session'dan al   
             int? ogretmenId = HttpContext.Session.GetInt32("OgretmenId");
             if (ogretmenId == null)
             {
                 return RedirectToAction("Giris");
             }
 
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(ad))
             {
-                try
-                {
-                    // Öğretmen ID'sini ata
-                    sinif.OgretmenId = ogretmenId.Value;
-                    
-                    // Öğrenci listesini başlat
-                    sinif.Ogrenciler = new List<Ogrenci>();
-                    
-                    // Veritabanına ekle
-                    _context.Siniflar.Add(sinif);
-                    _context.SaveChanges();
-                    
-                    // Başarılı mesajı
-                    TempData["Mesaj"] = $"{sinif.Ad} sınıfı başarıyla eklendi.";
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "Sınıf eklenirken bir hata oluştu: " + ex.Message);
-                }
+                ModelState.AddModelError("Ad", "Sınıf adı zorunludur.");
+                return View(new Sinif { Ad = ad });
             }
-            
-            return View(sinif);
+
+            try
+            {
+                var sinif = new Sinif
+                {
+                    Ad = ad,
+                    OgretmenId = ogretmenId.Value,
+                    Ogrenciler = new List<Ogrenci>()
+                };
+
+                // Veritabanına ekle
+                _context.Siniflar.Add(sinif);
+                _context.SaveChanges();
+                
+                // Başarılı mesajı
+                TempData["Mesaj"] = $"{ad} sınıfı başarıyla eklendi.";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Sınıf eklenirken bir hata oluştu: " + ex.Message);
+                return View(new Sinif { Ad = ad });
+            }
         }
 
         // Öğrenci Ekleme Sayfası
         [HttpGet]
-        public IActionResult OgrenciEkle()
+        public IActionResult OgrenciEkle(int? sinifId = null)
         {
             int? ogretmenId = HttpContext.Session.GetInt32("OgretmenId");
             if (ogretmenId == null)
@@ -172,12 +177,24 @@ namespace PerformansTakip.Controllers
             ViewBag.Siniflar = _context.Siniflar
                 .Where(s => s.OgretmenId == ogretmenId)
                 .ToList();
+
+            if (sinifId.HasValue)
+            {
+                var sinif = _context.Siniflar
+                    .FirstOrDefault(s => s.Id == sinifId && s.OgretmenId == ogretmenId);
+                if (sinif != null)
+                {
+                    ViewBag.SecilenSinif = sinif;
+                }
+            }
+
             return View();
         }
 
         // Öğrenci Ekleme İşlemi
         [HttpPost]
-        public IActionResult OgrenciEkle(Ogrenci ogrenci)
+        [ValidateAntiForgeryToken]
+        public IActionResult OgrenciEkle([FromForm] string ad, [FromForm] string soyad, [FromForm] int sinifId)
         {
             int? ogretmenId = HttpContext.Session.GetInt32("OgretmenId");
             if (ogretmenId == null)
@@ -185,17 +202,147 @@ namespace PerformansTakip.Controllers
                 return RedirectToAction("Giris");
             }
 
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(ad) || string.IsNullOrEmpty(soyad))
             {
-                _context.Ogrenciler.Add(ogrenci);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                ModelState.AddModelError("", "Ad ve soyad alanları zorunludur.");
+                ViewBag.Siniflar = _context.Siniflar.Where(s => s.OgretmenId == ogretmenId).ToList();
+                return View();
             }
 
-            ViewBag.Siniflar = _context.Siniflar
-                .Where(s => s.OgretmenId == ogretmenId)
-                .ToList();
-            return View(ogrenci);
+            try
+            {
+                // Öğrenciyi oluştur
+                var ogrenci = new Ogrenci
+                {
+                    Ad = ad,
+                    Soyad = soyad,
+                    SinifId = sinifId
+                };
+
+                // Öğrenciyi veritabanına ekle
+                _context.Ogrenciler.Add(ogrenci);
+                
+                // Seçilen sınıfı bul ve öğrenciyi sınıfa ekle
+                var sinif = _context.Siniflar.FirstOrDefault(s => s.Id == sinifId && s.OgretmenId == ogretmenId);
+                if (sinif != null)
+                {
+                    if (sinif.Ogrenciler == null)
+                    {
+                        sinif.Ogrenciler = new List<Ogrenci>();
+                    }
+                    sinif.Ogrenciler.Add(ogrenci);
+                }
+                
+                _context.SaveChanges();
+                
+                TempData["Mesaj"] = $"{ad} {soyad} öğrencisi başarıyla eklendi.";
+                
+                // Eğer belirli bir sınıftan gelindiyse o sınıfın detay sayfasına dön
+                if (sinif != null)
+                {
+                    return RedirectToAction("SinifDetay", new { id = sinifId });
+                }
+                
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Öğrenci eklenirken bir hata oluştu: " + ex.Message);
+                ViewBag.Siniflar = _context.Siniflar.Where(s => s.OgretmenId == ogretmenId).ToList();
+                return View();
+            }
+        }
+
+        // Öğrenci Silme İşlemi
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult OgrenciSil(int id)
+        {
+            int? ogretmenId = HttpContext.Session.GetInt32("OgretmenId");
+            if (ogretmenId == null)
+            {
+                return RedirectToAction("Giris");
+            }
+
+            try
+            {
+                // Öğrenciyi bul
+                var ogrenci = _context.Ogrenciler.FirstOrDefault(o => o.Id == id);
+                
+                if (ogrenci == null)
+                {
+                    TempData["Hata"] = "Öğrenci bulunamadı.";
+                    return RedirectToAction("Index");
+                }
+
+                // Öğrencinin sınıfını bul
+                var sinif = _context.Siniflar.FirstOrDefault(s => s.Id == ogrenci.SinifId && s.OgretmenId == ogretmenId);
+                
+                if (sinif == null)
+                {
+                    TempData["Hata"] = "Bu öğrenciyi silme yetkiniz yok.";
+                    return RedirectToAction("Index");
+                }
+
+                // Öğrenciyi sınıftan kaldır
+                if (sinif.Ogrenciler != null)
+                {
+                    sinif.Ogrenciler.Remove(ogrenci);
+                }
+
+                // Öğrenciyi veritabanından sil
+                _context.Ogrenciler.Remove(ogrenci);
+                _context.SaveChanges();
+
+                TempData["Mesaj"] = $"{ogrenci.Ad} {ogrenci.Soyad} öğrencisi başarıyla silindi.";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["Hata"] = "Öğrenci silinirken bir hata oluştu: " + ex.Message;
+                return RedirectToAction("Index");
+            }
+        }
+
+        // Öğrenci Güncelleme İşlemi
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult OgrenciGuncelle(int id, bool formaGiydi, bool odevYapti, int? sinavNotu, string gunlukNot)
+        {
+            int? ogretmenId = HttpContext.Session.GetInt32("OgretmenId");
+            if (ogretmenId == null)
+            {
+                return RedirectToAction("Giris");
+            }
+
+            try
+            {
+                var ogrenci = _context.Ogrenciler
+                    .Include(o => o.Sinif)
+                    .FirstOrDefault(o => o.Id == id && o.Sinif.OgretmenId == ogretmenId);
+
+                if (ogrenci == null)
+                {
+                    TempData["Hata"] = "Öğrenci bulunamadı veya güncelleme yetkiniz yok.";
+                    return RedirectToAction("Index");
+                }
+
+                // Öğrenci bilgilerini güncelle
+                ogrenci.FormaGiydi = formaGiydi;
+                ogrenci.OdevYapti = odevYapti;
+                ogrenci.SinavNotu = sinavNotu;
+                ogrenci.GunlukNot = gunlukNot;
+
+                _context.SaveChanges();
+
+                TempData["Mesaj"] = $"{ogrenci.Ad} {ogrenci.Soyad} öğrencisinin bilgileri güncellendi.";
+                return RedirectToAction("SinifDetay", new { id = ogrenci.SinifId });
+            }
+            catch (Exception ex)
+            {
+                TempData["Hata"] = "Güncelleme sırasında bir hata oluştu: " + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         // Ana Sayfa - Sınıf Listesi

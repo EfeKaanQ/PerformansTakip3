@@ -1,43 +1,78 @@
 @model PerformansTakip.Models.Ogrenci
 
 @{
-    ViewData["Title"] = "Yeni Öğrenci Ekle";
+    ViewData["Title"] = "Öğrenci Ekle";
 }
 
-<div class="container mt-4">
+<div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Yeni Öğrenci Ekle</h3>
+        <div class="col-md-8">
+            <div class="card border-0 shadow">
+                <div class="card-header bg-white py-3">
+                    <h4 class="text-center mb-0">
+                        @if (ViewBag.SecilenSinif != null)
+                        {
+                            <span>@ViewBag.SecilenSinif.Ad Sınıfına Yeni Öğrenci Ekle</span>
+                        }
+                        else
+                        {
+                            <span>Yeni Öğrenci Ekle</span>
+                        }
+                    </h4>
                 </div>
-                <div class="card-body">
-                    <form asp-action="OgrenciEkle" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card-body p-4">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                        </div>
+                    }
+
+                    <form method="post" action="@Url.Action("OgrenciEkle", "Ogretmen")">
+                        @Html.AntiForgeryToken()
                         
-                        <div class="mb-3">
-                            <label asp-for="Ad" class="form-label"></label>
-                            <input asp-for="Ad" class="form-control" />
-                            <span asp-validation-for="Ad" class="text-danger"></span>
+                        <div class="mb-4">
+                            <label for="ad" class="form-label">Ad</label>
+                            <input type="text" class="form-control form-control-lg" id="ad" name="ad" placeholder="Öğrencinin adını giriniz" required>
                         </div>
                         
-                        <div class="mb-3">
-                            <label asp-for="Soyad" class="form-label"></label>
-                            <input asp-for="Soyad" class="form-control" />
-                            <span asp-validation-for="Soyad" class="text-danger"></span>
+                        <div class="mb-4">
+                            <label for="soyad" class="form-label">Soyad</label>
+                            <input type="text" class="form-control form-control-lg" id="soyad" name="soyad" placeholder="Öğrencinin soyadını giriniz" required>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label asp-for="SinifId" class="form-label"></label>
-                            <select asp-for="SinifId" class="form-select" asp-items="@(new SelectList(ViewBag.Siniflar, "Id", "Ad"))">
-                                <option value="">Sınıf Seçiniz</option>
-                            </select>
-                            <span asp-validation-for="SinifId" class="text-danger"></span>
-                        </div>
-                        
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">Öğrenci Ekle</button>
-                            <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+
+                        @if (ViewBag.SecilenSinif != null)
+                        {
+                            <input type="hidden" name="sinifId" value="@ViewBag.SecilenSinif.Id">
+                            <div class="mb-4">
+                                <label class="form-label">Sınıf</label>
+                                <input type="text" class="form-control form-control-lg" value="@ViewBag.SecilenSinif.Ad" disabled>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-4">
+                                <label for="sinifId" class="form-label">Sınıf</label>
+                                <select class="form-select form-select-lg" id="sinifId" name="sinifId" required>
+                                    <option value="">Sınıf Seçiniz</option>
+                                    @foreach (var sinif in ViewBag.Siniflar)
+                                    {
+                                        <option value="@sinif.Id">@sinif.Ad</option>
+                                    }
+                                </select>
+                            </div>
+                        }
+
+                        <div class="d-grid gap-2 mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg">Öğrenci Ekle</button>
+                            @if (ViewBag.SecilenSinif != null)
+                            {
+                                <a href="@Url.Action("SinifDetay", "Ogretmen", new { id = ViewBag.SecilenSinif.Id })" class="btn btn-outline-secondary btn-lg">İptal</a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Index", "Ogretmen")" class="btn btn-outline-secondary btn-lg">İptal</a>
+                            }
                         </div>
                     </form>
                 </div>

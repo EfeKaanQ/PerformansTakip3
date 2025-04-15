@@ -1,7 +1,7 @@
 @model IEnumerable<PerformansTakip.Models.Sinif>
 
 @{
-    ViewData["Title"] = "Öğretmen Paneli";
+    ViewData["Title"] = "Ana Sayfa";
 }
 
 <div class="container mt-4">
@@ -14,43 +14,39 @@
     }
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Hoş Geldiniz, @ViewBag.OgretmenAdSoyad</h1>
+        <h3>Hoş Geldiniz, @ViewBag.OgretmenAdSoyad</h3>
         <div>
-            <a href="@Url.Action("SinifEkle")" class="btn btn-primary me-2">Yeni Sınıf Ekle</a>
-            <a href="@Url.Action("OgrenciEkle")" class="btn btn-success">Yeni Öğrenci Ekle</a>
+            <a href="@Url.Action("SinifEkle", "Ogretmen")" class="btn btn-primary">Yeni Sınıf Ekle</a>
+            <a href="@Url.Action("OgrenciEkle", "Ogretmen")" class="btn btn-success ms-2">Yeni Öğrenci Ekle</a>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row g-3">
         @foreach (var sinif in Model)
         {
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@sinif.Ad</h5>
-                        <p class="card-text">
-                            <strong>Öğrenci Sayısı:</strong> @sinif.Ogrenciler.Count<br>
-                            <strong>Durum:</strong> 
-                            @if (sinif.Ogrenciler.Count > 0)
+            <div class="col-md-3">
+                <div class="card bg-light border">
+                    <div class="card-body p-3">
+                        <h5>@sinif.Ad</h5>
+                        <div class="text-muted mb-2">
+                            Öğrenci Sayısı: @sinif.Ogrenciler.Count
+                        </div>
+                        <div class="mb-2">
+                            Durum: 
+                            @if (sinif.Ogrenciler.Any())
                             {
                                 <span class="badge bg-success">Aktif</span>
                             }
                             else
                             {
-                                <span class="badge bg-warning">Boş</span>
+                                <span class="badge bg-warning text-dark">Boş</span>
                             }
-                        </p>
-                        <a href="@Url.Action("SinifDetay", new { id = sinif.Id })" class="btn btn-info">Detaylar</a>
+                        </div>
+                        <a href="@Url.Action("SinifDetay", "Ogretmen", new { id = sinif.Id })" 
+                           class="btn btn-info btn-sm text-white w-100">Detaylar</a>
                     </div>
                 </div>
             </div>
         }
     </div>
-
-    @if (!Model.Any())
-    {
-        <div class="alert alert-info">
-            Henüz hiç sınıfınız bulunmamaktadır. Yeni bir sınıf ekleyerek başlayabilirsiniz.
-        </div>
-    }
 </div> 

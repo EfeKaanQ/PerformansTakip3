@@ -12,15 +12,24 @@
                     <h3 class="card-title">Yeni Sınıf Ekle</h3>
                 </div>
                 <div class="card-body">
-                    <form asp-action="SinifEkle" method="post">
-                        <div class="mb-3">
-                            <label asp-for="Ad" class="form-label">Sınıf Adı</label>
-                            <input asp-for="Ad" class="form-control" placeholder="Örn: 9-A" />
-                            <span asp-validation-for="Ad" class="text-danger"></span>
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <div asp-validation-summary="All" class="text-danger"></div>
                         </div>
+                    }
+                    
+                    <form method="post" action="/Ogretmen/SinifEkle">
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="mb-3">
+                            <label for="Ad" class="form-label">Sınıf Adı</label>
+                            <input type="text" class="form-control" id="Ad" name="Ad" placeholder="Örn: 9-A" required />
+                        </div>
+                        
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Sınıf Ekle</button>
-                            <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+                            <a href="/Ogretmen/Index" class="btn btn-secondary">Geri Dön</a>
                         </div>
                     </form>
                 </div>

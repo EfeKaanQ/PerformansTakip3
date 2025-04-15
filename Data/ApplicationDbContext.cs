@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using PerformansTakip.Models;
 
@@ -12,9 +11,9 @@ namespace PerformansTakip.Data
         }
     public DbSet<Sinif> Siniflar { get; set; }
         public DbSet<Ogrenci> Ogrenciler { get; set; }
+        public DbSet<Ogretmen> Ogretmenler { get; set; }
 
-           public DbSet<Ogretmen> Ogretmenler { get; set; }
-         protected override void OnModelCreating(ModelBuilder modelBuilder)
+           protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 

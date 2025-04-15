@@ -19,5 +19,18 @@ namespace PerformansTakip.Models
         public int SinifId { get; set; }
         
         public Sinif Sinif { get; set; }
+
+        [Display(Name = "Forma Durumu")]
+        public bool FormaGiydi { get; set; }
+
+        [Display(Name = "Ödev Durumu")]
+        public bool OdevYapti { get; set; }
+
+        [Display(Name = "Sınav Notu")]
+        [Range(0, 100, ErrorMessage = "Sınav notu 0-100 arasında olmalıdır.")]
+        public int? SinavNotu { get; set; }
+
+        [Display(Name = "Günlük Not")]
+        public string GunlukNot { get; set; }
     }
 }
