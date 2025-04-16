@@ -30,7 +30,6 @@ namespace PerformansTakip.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("GunlukNot")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("OdevYapti")

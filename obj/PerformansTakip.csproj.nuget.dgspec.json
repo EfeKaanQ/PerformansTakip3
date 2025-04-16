@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Efe\\OneDrive\\Masaüstü\\MVC\\PerformansTakip\\PerformansTakip.csproj": {}
+    "C:\\Users\\efe33\\Desktop\\MVC\\PerformansTakip3\\PerformansTakip.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Efe\\OneDrive\\Masaüstü\\MVC\\PerformansTakip\\PerformansTakip.csproj": {
+    "C:\\Users\\efe33\\Desktop\\MVC\\PerformansTakip3\\PerformansTakip.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Efe\\OneDrive\\Masaüstü\\MVC\\PerformansTakip\\PerformansTakip.csproj",
+        "projectUniqueName": "C:\\Users\\efe33\\Desktop\\MVC\\PerformansTakip3\\PerformansTakip.csproj",
         "projectName": "PerformansTakip",
-        "projectPath": "C:\\Users\\Efe\\OneDrive\\Masaüstü\\MVC\\PerformansTakip\\PerformansTakip.csproj",
-        "packagesPath": "C:\\Users\\Efe\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Efe\\OneDrive\\Masaüstü\\MVC\\PerformansTakip\\obj\\",
+        "projectPath": "C:\\Users\\efe33\\Desktop\\MVC\\PerformansTakip3\\PerformansTakip.csproj",
+        "packagesPath": "C:\\Users\\efe33\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\efe33\\Desktop\\MVC\\PerformansTakip3\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Efe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\efe33\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

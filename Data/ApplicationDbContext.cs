@@ -22,6 +22,13 @@ namespace PerformansTakip.Data
             .HasOne(s => s.Ogretmen)
             .WithMany(o => o.Siniflar)
             .HasForeignKey(s => s.OgretmenId);  // Sinif'ta OgretmenId'yi kullanıyoruz
+
+        // Sinif ve Ogrenci arasındaki ilişkiyi tanımla
+        modelBuilder.Entity<Ogrenci>()
+            .HasOne(o => o.Sinif)
+            .WithMany(s => s.Ogrenciler)
+            .HasForeignKey(o => o.SinifId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
        

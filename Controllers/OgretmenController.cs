@@ -211,43 +211,38 @@ namespace PerformansTakip.Controllers
 
             try
             {
+                // Önce sınıfın var olduğunu ve öğretmene ait olduğunu kontrol et
+                var sinif = _context.Siniflar
+                    .FirstOrDefault(s => s.Id == sinifId && s.OgretmenId == ogretmenId);
+
+                if (sinif == null)
+                {
+                    ModelState.AddModelError("", "Geçersiz sınıf seçimi.");
+                    ViewBag.Siniflar = _context.Siniflar.Where(s => s.OgretmenId == ogretmenId).ToList();
+                    return View();
+                }
+
                 // Öğrenciyi oluştur
                 var ogrenci = new Ogrenci
                 {
                     Ad = ad,
                     Soyad = soyad,
-                    SinifId = sinifId
+                    SinifId = sinifId,
+                    FormaGiydi = false,
+                    OdevYapti = false
                 };
 
                 // Öğrenciyi veritabanına ekle
                 _context.Ogrenciler.Add(ogrenci);
-                
-                // Seçilen sınıfı bul ve öğrenciyi sınıfa ekle
-                var sinif = _context.Siniflar.FirstOrDefault(s => s.Id == sinifId && s.OgretmenId == ogretmenId);
-                if (sinif != null)
-                {
-                    if (sinif.Ogrenciler == null)
-                    {
-                        sinif.Ogrenciler = new List<Ogrenci>();
-                    }
-                    sinif.Ogrenciler.Add(ogrenci);
-                }
-                
                 _context.SaveChanges();
-                
+
                 TempData["Mesaj"] = $"{ad} {soyad} öğrencisi başarıyla eklendi.";
-                
-                // Eğer belirli bir sınıftan gelindiyse o sınıfın detay sayfasına dön
-                if (sinif != null)
-                {
-                    return RedirectToAction("SinifDetay", new { id = sinifId });
-                }
-                
-                return RedirectToAction("Index");
+                return RedirectToAction("SinifDetay", new { id = sinifId });
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", "Öğrenci eklenirken bir hata oluştu: " + ex.Message);
+                var innerException = ex.InnerException != null ? ex.InnerException.Message : "No inner exception";
+                ModelState.AddModelError("", $"Öğrenci eklenirken bir hata oluştu. Detay: {innerException}");
                 ViewBag.Siniflar = _context.Siniflar.Where(s => s.OgretmenId == ogretmenId).ToList();
                 return View();
             }

@@ -31,6 +31,6 @@ namespace PerformansTakip.Models
         public int? SinavNotu { get; set; }
 
         [Display(Name = "Günlük Not")]
-        public string GunlukNot { get; set; }
+        public string? GunlukNot { get; set; }
     }
 }
