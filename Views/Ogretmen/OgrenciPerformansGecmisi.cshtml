@@ -1,0 +1,140 @@
+@model IEnumerable<PerformansTakip.Models.OgrenciPerformans>
+@{
+    ViewData["Title"] = "Öğrenci Performans Geçmişi";
+    var ogrenci = ViewBag.Ogrenci as PerformansTakip.Models.Ogrenci;
+}
+
+<style>
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn i {
+        font-size: 0.875rem;
+    }
+
+    .btn-outline-primary {
+        border: 2px solid #6B73FF;
+        color: #6B73FF;
+    }
+
+    .btn-outline-primary:hover {
+        background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+        border-color: transparent;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(107, 115, 255, 0.2);
+    }
+
+    .progress {
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .progress-bar {
+        transition: width 0.3s ease;
+        font-size: 12px;
+        line-height: 20px;
+    }
+    
+    .table td {
+        vertical-align: middle;
+    }
+    
+    .badge {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">@ogrenci.Ad @ogrenci.Soyad - Performans Geçmişi</h2>
+                <a href="@Url.Action("SinifDetay", new { id = ogrenci.SinifId })" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left"></i> Sınıfa Dön
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Tarih</th>
+                            <th>Forma</th>
+                            <th>Ödev</th>
+                            <th>Sınav Notu</th>
+                            <th>Günlük Not</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var performans in Model)
+                        {
+                            <tr>
+                                <td>@performans.Tarih.ToString("dd.MM.yyyy")</td>
+                                <td>
+                                    <div class="progress" style="height: 20px;">
+                                        <div class="progress-bar @(performans.FormaGiydi >= 80 ? "bg-success" : performans.FormaGiydi >= 50 ? "bg-warning" : "bg-danger")"
+                                             role="progressbar"
+                                             style="width: @(performans.FormaGiydi)%"
+                                             aria-valuenow="@performans.FormaGiydi"
+                                             aria-valuemin="0"
+                                             aria-valuemax="100">
+                                            @performans.FormaGiydi%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 20px;">
+                                        <div class="progress-bar @(performans.OdevYapti >= 80 ? "bg-success" : performans.OdevYapti >= 50 ? "bg-warning" : "bg-danger")"
+                                             role="progressbar"
+                                             style="width: @(performans.OdevYapti)%"
+                                             aria-valuenow="@performans.OdevYapti"
+                                             aria-valuemin="0"
+                                             aria-valuemax="100">
+                                            @performans.OdevYapti%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @if (performans.SinavNotu.HasValue)
+                                    {
+                                        <span class="badge bg-info">@performans.SinavNotu</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(performans.GunlukNot))
+                                    {
+                                        <span class="text-muted">@performans.GunlukNot</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -21,10 +21,12 @@ namespace PerformansTakip.Models
         public Sinif Sinif { get; set; }
 
         [Display(Name = "Forma Durumu")]
-        public bool FormaGiydi { get; set; }
+        [Range(0, 100, ErrorMessage = "Forma durumu 0 veya 100 olmalıdır.")]
+        public int FormaGiydi { get; set; }
 
         [Display(Name = "Ödev Durumu")]
-        public bool OdevYapti { get; set; }
+        [Range(0, 100, ErrorMessage = "Ödev durumu 0 veya 100 olmalıdır.")]
+        public int OdevYapti { get; set; }
 
         [Display(Name = "Sınav Notu")]
         [Range(0, 100, ErrorMessage = "Sınav notu 0-100 arasında olmalıdır.")]

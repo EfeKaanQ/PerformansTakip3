@@ -228,8 +228,8 @@ namespace PerformansTakip.Controllers
                     Ad = ad,
                     Soyad = soyad,
                     SinifId = sinifId,
-                    FormaGiydi = false,
-                    OdevYapti = false
+                    FormaGiydi = 0,
+                    OdevYapti = 0
                 };
 
                 // Öğrenciyi veritabanına ekle
@@ -302,7 +302,7 @@ namespace PerformansTakip.Controllers
         // Öğrenci Güncelleme İşlemi
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult OgrenciGuncelle(int id, bool? formaGiydi, bool? odevYapti, int? sinavNotu, string? gunlukNot)
+        public async Task<IActionResult> OgrenciGuncelle(int id, DateTime tarih, int? formaGiydi, int? odevYapti, int? sinavNotu, string? gunlukNot)
         {
             int? ogretmenId = HttpContext.Session.GetInt32("OgretmenId");
             if (ogretmenId == null)
@@ -312,36 +312,149 @@ namespace PerformansTakip.Controllers
 
             try
             {
-                var ogrenci = _context.Ogrenciler
+                var ogrenci = await _context.Ogrenciler
                     .Include(o => o.Sinif)
-                    .FirstOrDefault(o => o.Id == id && o.Sinif.OgretmenId == ogretmenId);
+                    .FirstOrDefaultAsync(o => o.Id == id && o.Sinif.OgretmenId == ogretmenId);
 
                 if (ogrenci == null)
                 {
                     return Json(new { success = false, message = "Öğrenci bulunamadı veya güncelleme yetkiniz yok." });
                 }
 
-                // Sadece gönderilen alanları güncelle
-                if (formaGiydi.HasValue)
-                    ogrenci.FormaGiydi = formaGiydi.Value;
-                
-                if (odevYapti.HasValue)
-                    ogrenci.OdevYapti = odevYapti.Value;
-                
-                if (sinavNotu.HasValue)
-                    ogrenci.SinavNotu = sinavNotu;
-                
-                if (gunlukNot != null)
-                    ogrenci.GunlukNot = gunlukNot;
+                // Belirtilen tarihteki performans kaydını bul veya oluştur
+                var performansKaydi = await _context.OgrenciPerformanslar
+                    .FirstOrDefaultAsync(p => p.OgrenciId == id && p.Tarih.Date == tarih.Date);
 
-                _context.SaveChanges();
+                if (performansKaydi == null)
+                {
+                    performansKaydi = new OgrenciPerformans
+                    {
+                        OgrenciId = id,
+                        Tarih = tarih.Date,
+                        FormaGiydi = formaGiydi ?? 0,
+                        OdevYapti = odevYapti ?? 0,
+                        SinavNotu = sinavNotu,
+                        GunlukNot = gunlukNot
+                    };
+                    _context.OgrenciPerformanslar.Add(performansKaydi);
+                }
+                else
+                {
+                    performansKaydi.FormaGiydi = formaGiydi ?? performansKaydi.FormaGiydi;
+                    performansKaydi.OdevYapti = odevYapti ?? performansKaydi.OdevYapti;
+                    performansKaydi.SinavNotu = sinavNotu ?? performansKaydi.SinavNotu;
+                    performansKaydi.GunlukNot = gunlukNot ?? performansKaydi.GunlukNot;
+                }
 
-                return Json(new { success = true, message = $"{ogrenci.Ad} {ogrenci.Soyad} öğrencisinin bilgileri güncellendi." });
+                // Öğrencinin mevcut durumunu da güncelle (en son kayıt olarak)
+                ogrenci.FormaGiydi = formaGiydi ?? ogrenci.FormaGiydi;
+                ogrenci.OdevYapti = odevYapti ?? ogrenci.OdevYapti;
+                ogrenci.SinavNotu = sinavNotu ?? ogrenci.SinavNotu;
+                ogrenci.GunlukNot = gunlukNot ?? ogrenci.GunlukNot;
+
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = $"{ogrenci.Ad} {ogrenci.Soyad} öğrencisinin {tarih.ToShortDateString()} tarihli bilgileri güncellendi." });
             }
             catch (Exception ex)
             {
                 return Json(new { success = false, message = "Güncelleme sırasında bir hata oluştu: " + ex.Message });
             }
+        }
+
+        // Günlük performans kaydı oluşturma
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OgrenciPerformansKaydet(int ogrenciId, int? formaGiydi, int? odevYapti, int? sinavNotu, string? gunlukNot)
+        {
+            int? ogretmenId = HttpContext.Session.GetInt32("OgretmenId");
+            if (ogretmenId == null)
+            {
+                return Json(new { success = false, message = "Oturum süresi dolmuş." });
+            }
+
+            try
+            {
+                var ogrenci = await _context.Ogrenciler
+                    .Include(o => o.Sinif)
+                    .FirstOrDefaultAsync(o => o.Id == ogrenciId && o.Sinif.OgretmenId == ogretmenId);
+
+                if (ogrenci == null)
+                {
+                    return Json(new { success = false, message = "Öğrenci bulunamadı veya güncelleme yetkiniz yok." });
+                }
+
+                // Bugün için kayıt var mı kontrol et
+                var bugun = DateTime.Today;
+                var mevcutKayit = await _context.OgrenciPerformanslar
+                    .FirstOrDefaultAsync(p => p.OgrenciId == ogrenciId && p.Tarih.Date == bugun);
+
+                if (mevcutKayit != null)
+                {
+                    // Mevcut kaydı güncelle
+                    if (formaGiydi.HasValue)
+                        mevcutKayit.FormaGiydi = formaGiydi.Value;
+                    
+                    if (odevYapti.HasValue)
+                        mevcutKayit.OdevYapti = odevYapti.Value;
+                    
+                    if (sinavNotu.HasValue)
+                        mevcutKayit.SinavNotu = sinavNotu;
+                    
+                    if (gunlukNot != null)
+                        mevcutKayit.GunlukNot = gunlukNot;
+                }
+                else
+                {
+                    // Yeni kayıt oluştur
+                    var yeniKayit = new OgrenciPerformans
+                    {
+                        OgrenciId = ogrenciId,
+                        Tarih = bugun,
+                        FormaGiydi = formaGiydi ?? 0,
+                        OdevYapti = odevYapti ?? 0,
+                        SinavNotu = sinavNotu,
+                        GunlukNot = gunlukNot
+                    };
+
+                    _context.OgrenciPerformanslar.Add(yeniKayit);
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = $"{ogrenci.Ad} {ogrenci.Soyad} öğrencisinin performans kaydı güncellendi." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Güncelleme sırasında bir hata oluştu: " + ex.Message });
+            }
+        }
+
+        // Öğrenci performans geçmişini görüntüleme
+        public async Task<IActionResult> OgrenciPerformansGecmisi(int id)
+        {
+            int? ogretmenId = HttpContext.Session.GetInt32("OgretmenId");
+            if (ogretmenId == null)
+            {
+                return RedirectToAction("Giris");
+            }
+
+            var ogrenci = await _context.Ogrenciler
+                .Include(o => o.Sinif)
+                .FirstOrDefaultAsync(o => o.Id == id && o.Sinif.OgretmenId == ogretmenId);
+
+            if (ogrenci == null)
+            {
+                return NotFound();
+            }
+
+            var performanslar = await _context.OgrenciPerformanslar
+                .Where(p => p.OgrenciId == id)
+                .OrderByDescending(p => p.Tarih)
+                .ToListAsync();
+
+            ViewBag.Ogrenci = ogrenci;
+            return View(performanslar);
         }
 
         // Ana Sayfa - Sınıf Listesi
@@ -381,6 +494,69 @@ namespace PerformansTakip.Controllers
             }
 
             return View(sinif);
+        }
+
+        // Öğrenci Düzenleme Sayfası
+        [HttpGet]
+        public IActionResult OgrenciDuzenle(int id)
+        {
+            int? ogretmenId = HttpContext.Session.GetInt32("OgretmenId");
+            if (ogretmenId == null)
+            {
+                return RedirectToAction("Giris");
+            }
+
+            var ogrenci = _context.Ogrenciler
+                .Include(o => o.Sinif)
+                .FirstOrDefault(o => o.Id == id && o.Sinif.OgretmenId == ogretmenId);
+
+            if (ogrenci == null)
+            {
+                return NotFound();
+            }
+
+            return View(ogrenci);
+        }
+
+        // Öğrenci Düzenleme İşlemi
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult OgrenciDuzenle(int id, int? formaGiydi, int? odevYapti, int? sinavNotu, string? gunlukNot)
+        {
+            int? ogretmenId = HttpContext.Session.GetInt32("OgretmenId");
+            if (ogretmenId == null)
+            {
+                return RedirectToAction("Giris");
+            }
+
+            try
+            {
+                var mevcutOgrenci = _context.Ogrenciler
+                    .Include(o => o.Sinif)
+                    .FirstOrDefault(o => o.Id == id && o.Sinif.OgretmenId == ogretmenId);
+
+                if (mevcutOgrenci == null)
+                {
+                    return NotFound();
+                }
+
+                // Sadece performans bilgilerini güncelle
+                mevcutOgrenci.FormaGiydi = formaGiydi ?? 0;
+                mevcutOgrenci.OdevYapti = odevYapti ?? 0;
+                mevcutOgrenci.SinavNotu = sinavNotu;
+                mevcutOgrenci.GunlukNot = gunlukNot;
+
+                _context.SaveChanges();
+
+                TempData["Mesaj"] = $"{mevcutOgrenci.Ad} {mevcutOgrenci.Soyad} öğrencisinin bilgileri güncellendi.";
+                return RedirectToAction("SinifDetay", new { id = mevcutOgrenci.SinifId });
+            }
+            catch (Exception ex)
+            {
+                var ogrenci = _context.Ogrenciler.Find(id);
+                ModelState.AddModelError("", "Güncelleme sırasında bir hata oluştu: " + ex.Message);
+                return View(ogrenci);
+            }
         }
     }
 }

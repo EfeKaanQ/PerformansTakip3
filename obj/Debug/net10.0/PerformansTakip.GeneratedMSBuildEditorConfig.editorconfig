@@ -19,73 +19,85 @@ build_property.TargetFrameworkIdentifier = .NETCoreApp
 build_property.TargetFrameworkVersion = v10.0
 build_property.RootNamespace = PerformansTakip
 build_property.RootNamespace = PerformansTakip
-build_property.ProjectDir = C:\Users\efe33\Desktop\MVC\PerformansTakip3\
+build_property.ProjectDir = C:\Users\Efe\OneDrive\Masaüstü\MVC\PerformansTakip32\PerformansTakip3\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\efe33\Desktop\MVC\PerformansTakip3
+build_property.MSBuildProjectDirectory = C:\Users\Efe\OneDrive\Masaüstü\MVC\PerformansTakip32\PerformansTakip3
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Home/Index.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Home/Privacy.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Ogretmen/Giris.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Ogretmen/Giris.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZXRtZW5cR2lyaXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Ogretmen/Index.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Ogretmen/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZXRtZW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Ogretmen/Kayit.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Ogretmen/Kayit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZXRtZW5cS2F5aXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Ogretmen/OgrenciEkle.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Ogretmen/OgrenciDuzenle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZXRtZW5cT2dyZW5jaUR1emVubGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Ogretmen/OgrenciEkle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZXRtZW5cT2dyZW5jaUVrbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Ogretmen/SinifDetay.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Ogretmen/OgrenciPerformansGecmisi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZXRtZW5cT2dyZW5jaVBlcmZvcm1hbnNHZWNtaXNpLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Ogretmen/OgrenciPerformansKaydet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZXRtZW5cT2dyZW5jaVBlcmZvcm1hbnNLYXlkZXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Ogretmen/SinifDetay.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZXRtZW5cU2luaWZEZXRheS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Ogretmen/SinifEkle.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Ogretmen/SinifEkle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZXRtZW5cU2luaWZFa2xlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Shared/Error.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Sinif/Detay.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Sinif/Detay.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2luaWZcRGV0YXkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Sinif/Index.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Sinif/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2luaWZcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/_ViewImports.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/_ViewStart.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/efe33/Desktop/MVC/PerformansTakip3/Views/Shared/_Layout.cshtml]
+[C:/Users/Efe/OneDrive/Masaüstü/MVC/PerformansTakip32/PerformansTakip3/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-bke1dsatjl

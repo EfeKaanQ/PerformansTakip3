@@ -1,0 +1,162 @@
+@model PerformansTakip.Models.Ogrenci
+
+@{
+    ViewData["Title"] = "Öğrenci Düzenle";
+}
+
+<style>
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn i {
+        font-size: 0.875rem;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+        border: none;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #000DFF 0%, #6B73FF 100%);
+        transform: translateY(-2px);
+        color: white;
+        box-shadow: 0 4px 12px rgba(107, 115, 255, 0.2);
+    }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #8E98A8 0%, #636E7B 100%);
+        border: none;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background: linear-gradient(135deg, #636E7B 0%, #8E98A8 100%);
+        transform: translateY(-2px);
+        color: white;
+        box-shadow: 0 4px 12px rgba(99, 110, 123, 0.2);
+    }
+
+    .form-control {
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #6B73FF;
+        box-shadow: 0 0 0 0.25rem rgba(107, 115, 255, 0.25);
+    }
+
+    .card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header {
+        background: white;
+        border-bottom: 1px solid #e9ecef;
+        padding: 1.5rem;
+    }
+
+    .form-check-input:checked {
+        background-color: #6B73FF;
+        border-color: #6B73FF;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="card-title mb-0">@Model.Ad @Model.Soyad - Performans Bilgilerini Düzenle</h3>
+                        <a href="@Url.Action("SinifDetay", new { id = Model.SinifId })" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Geri Dön
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                        </div>
+                    }
+
+                    <form method="post" action="@Url.Action("OgrenciDuzenle")">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id" />
+
+                        <div class="mb-3">
+                            <label class="form-label">Tarih</label>
+                            <input type="date" class="form-control" name="tarih" value="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Forma Durumu</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="formaGiydi" onchange="updateFormaValue()" @(Model.FormaGiydi == 100 ? "checked" : "") />
+                                <input type="hidden" name="formaGiydi" id="formaGiydiValue" value="@Model.FormaGiydi" />
+                                <label class="form-check-label">Forma Giydi</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ödev Durumu</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="odevYapti" onchange="updateOdevValue()" @(Model.OdevYapti == 100 ? "checked" : "") />
+                                <input type="hidden" name="odevYapti" id="odevYaptiValue" value="@Model.OdevYapti" />
+                                <label class="form-check-label">Ödev Yaptı</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Sınav Notu</label>
+                            <input type="number" class="form-control" name="sinavNotu" value="@Model.SinavNotu" min="0" max="100" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Günlük Not</label>
+                            <textarea class="form-control" name="gunlukNot" rows="3">@Model.GunlukNot</textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function updateFormaValue() {
+            var checkbox = document.getElementById('formaGiydi');
+            var hiddenInput = document.getElementById('formaGiydiValue');
+            hiddenInput.value = checkbox.checked ? 100 : 0;
+        }
+
+        function updateOdevValue() {
+            var checkbox = document.getElementById('odevYapti');
+            var hiddenInput = document.getElementById('odevYaptiValue');
+            hiddenInput.value = checkbox.checked ? 100 : 0;
+        }
+    </script>
+} 

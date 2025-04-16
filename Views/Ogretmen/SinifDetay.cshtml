@@ -39,16 +39,16 @@
 
 <style>
     .gradient-custom {
-        background: linear-gradient(to right, #4776E6, #8E54E9);
+        background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
     }
     
     .text-purple {
-        color: #9C27B0;
+        color: #6B73FF;
     }
     
     .form-check-input:checked {
-        background-color: #4CAF50;
-        border-color: #4CAF50;
+        background-color: #6B73FF;
+        border-color: #6B73FF;
     }
     
     .table > :not(caption) > * > * {
@@ -56,36 +56,110 @@
     }
     
     .form-control:focus {
-        border-color: #4776E6;
-        box-shadow: 0 0 0 0.25rem rgba(71, 118, 230, 0.25);
+        border-color: #6B73FF;
+        box-shadow: 0 0 0 0.25rem rgba(107, 115, 255, 0.25);
     }
     
-    .btn-floating {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        padding: 1rem;
-        border-radius: 50%;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
         transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
     }
-    
-    .btn-floating:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+
+    .btn i {
+        font-size: 0.875rem;
     }
-    
-    .btn-save {
-        background: linear-gradient(45deg, #4CAF50, #45a049);
-        color: white;
+
+    .btn-primary {
+        background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
         border: none;
-        transition: all 0.3s ease;
+        color: white;
     }
-    
-    .btn-save:hover {
-        background: linear-gradient(45deg, #45a049, #4CAF50);
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #000DFF 0%, #6B73FF 100%);
         transform: translateY(-2px);
         color: white;
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #FFB75E 0%, #FF9F00 100%);
+        border: none;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background: linear-gradient(135deg, #FF9F00 0%, #FFB75E 100%);
+        transform: translateY(-2px);
+        color: white;
+    }
+
+    .btn-info {
+        background: linear-gradient(135deg, #4FACFE 0%, #00B4DB 100%);
+        border: none;
+        color: white;
+    }
+
+    .btn-info:hover {
+        background: linear-gradient(135deg, #00B4DB 0%, #4FACFE 100%);
+        transform: translateY(-2px);
+        color: white;
+    }
+
+    .btn-light {
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        color: #333;
+    }
+
+    .btn-light:hover {
+        background: #f8f9fa;
+        transform: translateY(-2px);
+        border-color: rgba(0, 0, 0, 0.2);
+        color: #000;
+    }
+
+    .btn-outline-light {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: white;
+    }
+
+    .btn-outline-light:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+        border-color: white;
+        color: white;
+    }
+
+    .btn-group {
+        display: inline-flex;
+        gap: 0.5rem;
+    }
+
+    .btn-group .btn {
+        border-radius: 0.5rem !important;
+    }
+
+    .btn-save {
+        background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+        min-width: 100px;
+    }
+
+    .btn-save:hover {
+        background: linear-gradient(135deg, #000DFF 0%, #6B73FF 100%);
+        transform: translateY(-2px);
+        color: white;
+        box-shadow: 0 4px 12px rgba(107, 115, 255, 0.2);
     }
     
     .save-feedback {
@@ -94,6 +168,10 @@
         right: 20px;
         z-index: 1050;
         display: none;
+        background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 12px rgba(107, 115, 255, 0.3);
     }
     
     .form-row {
@@ -111,7 +189,101 @@
         justify-content: center;
         font-weight: bold;
         color: white;
-        background: linear-gradient(45deg, #4776E6, #8E54E9);
+        background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+    }
+
+    .table {
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .table thead th {
+        background: #f8f9fa;
+        border-bottom: 2px solid #e9ecef;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+
+    .table tbody tr {
+        transition: all 0.3s ease;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #FF6B6B 0%, #FF000D 100%);
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background: linear-gradient(135deg, #FF000D 0%, #FF6B6B 100%);
+        transform: translateY(-2px);
+    }
+
+    .card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header {
+        background: white;
+        border-bottom: 1px solid #e9ecef;
+        padding: 1.5rem;
+    }
+
+    .form-check-input {
+        width: 3em;
+        height: 1.5em;
+        margin-top: 0.25em;
+        cursor: pointer;
+    }
+
+    .form-control {
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e9ecef;
+    }
+
+    .form-control:focus {
+        border-color: #6B73FF;
+        box-shadow: 0 0 0 0.25rem rgba(107, 115, 255, 0.25);
+    }
+
+    .btn-floating {
+        position: fixed;
+        bottom: 1rem;
+        right: 2rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 2rem;
+        background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(107, 115, 255, 0.3);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        font-weight: 500;
+    }
+
+    .btn-floating:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(107, 115, 255, 0.4);
+        color: white;
+    }
+
+    .btn-floating i {
+        font-size: 1.25rem;
     }
 </style>
 
@@ -194,11 +366,12 @@
                                                 <form method="post" action="@Url.Action("OgrenciGuncelle")" class="form-row justify-content-center" id="form-@ogrenci.Id">
                                                     @Html.AntiForgeryToken()
                                                     <input type="hidden" name="id" value="@ogrenci.Id" />
-                                                    <input type="hidden" name="formaGiydi" value="@ogrenci.FormaGiydi" />
                                                     <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" name="odevYapti" 
-                                                               @(ogrenci.OdevYapti ? "checked" : "") 
+                                                        <input class="form-check-input odev-checkbox" type="checkbox" 
+                                                               data-ogrenci-id="@ogrenci.Id"
+                                                               @(ogrenci.OdevYapti == 100 ? "checked" : "") 
                                                                style="width: 3em; height: 1.5em;">
+                                                        <input type="hidden" name="odevYapti" value="@(ogrenci.OdevYapti)" />
                                                     </div>
                                                     <button type="submit" class="btn btn-save btn-sm">
                                                         <i class="fas fa-save"></i> Kaydet
@@ -211,11 +384,12 @@
                                                 <form method="post" action="@Url.Action("OgrenciGuncelle")" class="form-row justify-content-center" id="form-@ogrenci.Id">
                                                     @Html.AntiForgeryToken()
                                                     <input type="hidden" name="id" value="@ogrenci.Id" />
-                                                    <input type="hidden" name="odevYapti" value="@ogrenci.OdevYapti" />
                                                     <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" name="formaGiydi" 
-                                                               @(ogrenci.FormaGiydi ? "checked" : "") 
+                                                        <input class="form-check-input forma-checkbox" type="checkbox" 
+                                                               data-ogrenci-id="@ogrenci.Id"
+                                                               @(ogrenci.FormaGiydi == 100 ? "checked" : "") 
                                                                style="width: 3em; height: 1.5em;">
+                                                        <input type="hidden" name="formaGiydi" value="@(ogrenci.FormaGiydi)" />
                                                     </div>
                                                     <button type="submit" class="btn btn-save btn-sm">
                                                         <i class="fas fa-save"></i> Kaydet
@@ -252,26 +426,42 @@
                                             </td>
                                             break;
                                         default:
-                                            <td class="text-center align-middle">
-                                                <i class="fas @(ogrenci.OdevYapti ? "fa-check text-success" : "fa-times text-danger")"></i>
+                                            <td class="text-center align-middle" style="width: 100px;">
+                                                <div>
+                                                    <i class="fas @(ogrenci.OdevYapti == 100 ? "fa-check text-success" : "fa-times text-danger")"></i>
+                                                    <div class="@(ogrenci.OdevYapti == 100 ? "text-success" : "text-danger") mt-1">
+                                                        @(ogrenci.OdevYapti == 100 ? "Yaptı" : "Yapmadı")
+                                                    </div>
+                                                </div>
                                             </td>
-                                            <td class="text-center align-middle">
-                                                <i class="fas @(ogrenci.FormaGiydi ? "fa-check text-success" : "fa-times text-danger")"></i>
+                                            <td class="text-center align-middle" style="width: 100px;">
+                                                <div>
+                                                    <i class="fas @(ogrenci.FormaGiydi == 100 ? "fa-check text-success" : "fa-times text-danger")"></i>
+                                                    <div class="@(ogrenci.FormaGiydi == 100 ? "text-success" : "text-danger") mt-1">
+                                                        @(ogrenci.FormaGiydi == 100 ? "Giydi" : "Giymedi")
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td class="align-middle">@ogrenci.SinavNotu</td>
                                             <td class="align-middle">@ogrenci.GunlukNot</td>
                                             break;
                                     }
                                     <td class="text-end align-middle">
-                                        <form method="post" action="@Url.Action("OgrenciSil")" 
-                                              style="display: inline;" 
-                                              onsubmit="return confirm('Bu öğrenciyi silmek istediğinize emin misiniz?');">
-                                            @Html.AntiForgeryToken()
-                                            <input type="hidden" name="id" value="@ogrenci.Id" />
-                                            <button type="submit" class="btn btn-outline-danger btn-sm">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        <div class="btn-group">
+                                            <a href="@Url.Action("OgrenciDuzenle", new { id = ogrenci.Id })" class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit me-1"></i> Düzelt
+                                            </a>
+                                            <form method="post" action="@Url.Action("OgrenciSil")" 
+                                                  class="delete-form"
+                                                  style="display: inline;">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@ogrenci.Id" />
+                                                <button type="button" class="btn btn-danger btn-sm" 
+                                                        onclick="confirmDelete(this.form, '@ogrenci.Ad @ogrenci.Soyad')">
+                                                    <i class="fas fa-trash me-1"></i> Sil
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -295,8 +485,9 @@
         </div>
     }
 
-    <a href="@Url.Action("OgrenciEkle", new { sinifId = Model.Id })" class="btn btn-success btn-floating">
-        <i class="fas fa-plus fa-lg"></i>
+    <a href="@Url.Action("OgrenciEkle", new { sinifId = Model.Id })" class="btn-floating">
+        <i class="fas fa-user-plus"></i>
+        <span>Öğrenci Ekle</span>
     </a>
 
     <div class="save-feedback alert alert-success alert-dismissible fade" role="alert">
@@ -312,31 +503,48 @@
             // Bootstrap tooltips
             $('[data-bs-toggle="tooltip"]').tooltip();
             
+            // Ödev checkbox'ı değiştiğinde
+            $('.odev-checkbox').change(function() {
+                var hiddenInput = $(this).siblings('input[name="odevYapti"]');
+                hiddenInput.val(this.checked ? 100 : 0);
+            });
+
+            // Forma checkbox'ı değiştiğinde
+            $('.forma-checkbox').change(function() {
+                var hiddenInput = $(this).siblings('input[name="formaGiydi"]');
+                hiddenInput.val(this.checked ? 100 : 0);
+            });
+
             // Form submit işlemi
-            $('form').on('submit', function(e) {
-                if (!$(this).hasClass('delete-form')) {
-                    e.preventDefault();
-                    var form = $(this);
-                    
-                    $.ajax({
-                        url: form.attr('action'),
-                        method: 'POST',
-                        data: form.serialize(),
-                        success: function(response) {
-                            // Başarılı kayıt bildirimi göster
+            $('form:not(.delete-form)').on('submit', function(e) {
+                e.preventDefault();
+                var form = $(this);
+                
+                $.ajax({
+                    url: form.attr('action'),
+                    method: 'POST',
+                    data: form.serialize(),
+                    success: function(response) {
+                        if (response.success) {
                             $('.save-feedback').addClass('show').fadeIn();
-                            
-                            // 3 saniye sonra bildirimi gizle
                             setTimeout(function() {
                                 $('.save-feedback').removeClass('show').fadeOut();
                             }, 3000);
-                        },
-                        error: function() {
-                            alert('Kayıt sırasında bir hata oluştu!');
+                        } else {
+                            alert(response.message);
                         }
-                    });
-                }
+                    },
+                    error: function() {
+                        alert('Kayıt sırasında bir hata oluştu!');
+                    }
+                });
             });
         });
+
+        function confirmDelete(form, ogrenciAdi) {
+            if (confirm(ogrenciAdi + ' öğrencisini silmek istediğinize emin misiniz?')) {
+                form.submit();
+            }
+        }
     </script>
 } 
