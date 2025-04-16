@@ -74,6 +74,45 @@
         transform: translateY(-5px);
         box-shadow: 0 6px 16px rgba(0,0,0,0.2);
     }
+    
+    .btn-save {
+        background: linear-gradient(45deg, #4CAF50, #45a049);
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-save:hover {
+        background: linear-gradient(45deg, #45a049, #4CAF50);
+        transform: translateY(-2px);
+        color: white;
+    }
+    
+    .save-feedback {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1050;
+        display: none;
+    }
+    
+    .form-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .avatar-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(45deg, #4776E6, #8E54E9);
+    }
 </style>
 
 <div class="container mt-4">
@@ -140,7 +179,7 @@
                                 <tr>
                                     <td class="align-middle">
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-circle @kontrolClass me-2">
+                                            <div class="avatar-circle me-2">
                                                 @ogrenci.Ad[0]@ogrenci.Soyad[0]
                                             </div>
                                             <div>
@@ -152,55 +191,63 @@
                                     {
                                         case "odev":
                                             <td class="text-center align-middle">
-                                                <form method="post" action="@Url.Action("OgrenciGuncelle")" class="d-inline">
+                                                <form method="post" action="@Url.Action("OgrenciGuncelle")" class="form-row justify-content-center" id="form-@ogrenci.Id">
                                                     @Html.AntiForgeryToken()
                                                     <input type="hidden" name="id" value="@ogrenci.Id" />
                                                     <input type="hidden" name="formaGiydi" value="@ogrenci.FormaGiydi" />
-                                                    <div class="form-check form-switch d-flex justify-content-center">
+                                                    <div class="form-check form-switch">
                                                         <input class="form-check-input" type="checkbox" name="odevYapti" 
                                                                @(ogrenci.OdevYapti ? "checked" : "") 
-                                                               onchange="this.form.submit()"
                                                                style="width: 3em; height: 1.5em;">
                                                     </div>
+                                                    <button type="submit" class="btn btn-save btn-sm">
+                                                        <i class="fas fa-save"></i> Kaydet
+                                                    </button>
                                                 </form>
                                             </td>
                                             break;
                                         case "kiyafet":
                                             <td class="text-center align-middle">
-                                                <form method="post" action="@Url.Action("OgrenciGuncelle")" class="d-inline">
+                                                <form method="post" action="@Url.Action("OgrenciGuncelle")" class="form-row justify-content-center" id="form-@ogrenci.Id">
                                                     @Html.AntiForgeryToken()
                                                     <input type="hidden" name="id" value="@ogrenci.Id" />
                                                     <input type="hidden" name="odevYapti" value="@ogrenci.OdevYapti" />
-                                                    <div class="form-check form-switch d-flex justify-content-center">
+                                                    <div class="form-check form-switch">
                                                         <input class="form-check-input" type="checkbox" name="formaGiydi" 
                                                                @(ogrenci.FormaGiydi ? "checked" : "") 
-                                                               onchange="this.form.submit()"
                                                                style="width: 3em; height: 1.5em;">
                                                     </div>
+                                                    <button type="submit" class="btn btn-save btn-sm">
+                                                        <i class="fas fa-save"></i> Kaydet
+                                                    </button>
                                                 </form>
                                             </td>
                                             break;
                                         case "performans":
                                             <td class="text-center align-middle">
-                                                <form method="post" action="@Url.Action("OgrenciGuncelle")" class="d-inline">
+                                                <form method="post" action="@Url.Action("OgrenciGuncelle")" class="form-row justify-content-center" id="form-@ogrenci.Id">
                                                     @Html.AntiForgeryToken()
                                                     <input type="hidden" name="id" value="@ogrenci.Id" />
-                                                    <input type="number" class="form-control form-control-sm d-inline-block" 
+                                                    <input type="number" class="form-control form-control-sm" 
                                                            name="sinavNotu" value="@ogrenci.SinavNotu" 
-                                                           min="0" max="100" style="width: 80px;"
-                                                           onchange="this.form.submit()">
+                                                           min="0" max="100" style="width: 80px;">
+                                                    <button type="submit" class="btn btn-save btn-sm">
+                                                        <i class="fas fa-save"></i> Kaydet
+                                                    </button>
                                                 </form>
                                             </td>
                                             break;
                                         case "gunluk":
                                             <td class="align-middle">
-                                                <form method="post" action="@Url.Action("OgrenciGuncelle")" class="d-inline w-100">
+                                                <form method="post" action="@Url.Action("OgrenciGuncelle")" class="form-row" id="form-@ogrenci.Id">
                                                     @Html.AntiForgeryToken()
                                                     <input type="hidden" name="id" value="@ogrenci.Id" />
                                                     <input type="text" class="form-control form-control-sm" 
                                                            name="gunlukNot" value="@ogrenci.GunlukNot" 
-                                                           placeholder="Günlük not girin..."
-                                                           onchange="this.form.submit()">
+                                                           placeholder="Günlük not girin...">
+                                                    <button type="submit" class="btn btn-save btn-sm">
+                                                        <i class="fas fa-save"></i> Kaydet
+                                                    </button>
                                                 </form>
                                             </td>
                                             break;
@@ -251,6 +298,12 @@
     <a href="@Url.Action("OgrenciEkle", new { sinifId = Model.Id })" class="btn btn-success btn-floating">
         <i class="fas fa-plus fa-lg"></i>
     </a>
+
+    <div class="save-feedback alert alert-success alert-dismissible fade" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        <span class="message">Değişiklikler kaydedildi!</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 </div>
 
 @section Scripts {
@@ -259,11 +312,30 @@
             // Bootstrap tooltips
             $('[data-bs-toggle="tooltip"]').tooltip();
             
-            // Animate on scroll
-            AOS.init({
-                duration: 800,
-                easing: 'ease-in-out',
-                once: true
+            // Form submit işlemi
+            $('form').on('submit', function(e) {
+                if (!$(this).hasClass('delete-form')) {
+                    e.preventDefault();
+                    var form = $(this);
+                    
+                    $.ajax({
+                        url: form.attr('action'),
+                        method: 'POST',
+                        data: form.serialize(),
+                        success: function(response) {
+                            // Başarılı kayıt bildirimi göster
+                            $('.save-feedback').addClass('show').fadeIn();
+                            
+                            // 3 saniye sonra bildirimi gizle
+                            setTimeout(function() {
+                                $('.save-feedback').removeClass('show').fadeOut();
+                            }, 3000);
+                        },
+                        error: function() {
+                            alert('Kayıt sırasında bir hata oluştu!');
+                        }
+                    });
+                }
             });
         });
     </script>

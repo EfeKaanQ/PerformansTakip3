@@ -302,12 +302,12 @@ namespace PerformansTakip.Controllers
         // Öğrenci Güncelleme İşlemi
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult OgrenciGuncelle(int id, bool formaGiydi, bool odevYapti, int? sinavNotu, string gunlukNot)
+        public IActionResult OgrenciGuncelle(int id, bool? formaGiydi, bool? odevYapti, int? sinavNotu, string? gunlukNot)
         {
             int? ogretmenId = HttpContext.Session.GetInt32("OgretmenId");
             if (ogretmenId == null)
             {
-                return RedirectToAction("Giris");
+                return Json(new { success = false, message = "Oturum süresi dolmuş." });
             }
 
             try
@@ -318,25 +318,29 @@ namespace PerformansTakip.Controllers
 
                 if (ogrenci == null)
                 {
-                    TempData["Hata"] = "Öğrenci bulunamadı veya güncelleme yetkiniz yok.";
-                    return RedirectToAction("Index");
+                    return Json(new { success = false, message = "Öğrenci bulunamadı veya güncelleme yetkiniz yok." });
                 }
 
-                // Öğrenci bilgilerini güncelle
-                ogrenci.FormaGiydi = formaGiydi;
-                ogrenci.OdevYapti = odevYapti;
-                ogrenci.SinavNotu = sinavNotu;
-                ogrenci.GunlukNot = gunlukNot;
+                // Sadece gönderilen alanları güncelle
+                if (formaGiydi.HasValue)
+                    ogrenci.FormaGiydi = formaGiydi.Value;
+                
+                if (odevYapti.HasValue)
+                    ogrenci.OdevYapti = odevYapti.Value;
+                
+                if (sinavNotu.HasValue)
+                    ogrenci.SinavNotu = sinavNotu;
+                
+                if (gunlukNot != null)
+                    ogrenci.GunlukNot = gunlukNot;
 
                 _context.SaveChanges();
 
-                TempData["Mesaj"] = $"{ogrenci.Ad} {ogrenci.Soyad} öğrencisinin bilgileri güncellendi.";
-                return RedirectToAction("SinifDetay", new { id = ogrenci.SinifId });
+                return Json(new { success = true, message = $"{ogrenci.Ad} {ogrenci.Soyad} öğrencisinin bilgileri güncellendi." });
             }
             catch (Exception ex)
             {
-                TempData["Hata"] = "Güncelleme sırasında bir hata oluştu: " + ex.Message;
-                return RedirectToAction("Index");
+                return Json(new { success = false, message = "Güncelleme sırasında bir hata oluştu: " + ex.Message });
             }
         }
 
